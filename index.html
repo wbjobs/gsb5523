@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多标签页任务协作板</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>多标签页任务协作板</h1>
+    <div class="identity">
+      <span class="dot"></span>
+      本标签页：<strong id="selfName">…</strong>
+    </div>
+  </header>
+
+  <main>
+    <section class="left">
+      <form id="taskForm" class="card">
+        <h2 id="formTitle">创建任务</h2>
+        <input id="title" type="text" required maxlength="80" placeholder="任务标题（必填）" autocomplete="off">
+        <input id="desc" type="text" maxlength="200" placeholder="任务描述（可选）" autocomplete="off">
+        <div class="row">
+          <button type="submit" id="submitBtn">创建任务</button>
+          <button type="button" id="cancelEdit" class="ghost" hidden>取消编辑</button>
+          <button type="button" id="concurrencyTest" class="ghost" title="在本页内发起 8 路并发认领，验证只有一个成功">并发认领测试</button>
+        </div>
+      </form>
+
+      <div class="toolbar card">
+        <label>过滤
+          <select id="filterStatus">
+            <option value="all">全部</option>
+            <option value="pending">待认领</option>
+            <option value="claimed">已认领</option>
+            <option value="done">已完成</option>
+            <option value="mine">我认领的</option>
+          </select>
+        </label>
+        <label>排序
+          <select id="sortKey">
+            <option value="updatedAt">按更新时间</option>
+            <option value="createdAt">按创建时间</option>
+            <option value="title">按标题</option>
+            <option value="status">按状态</option>
+          </select>
+        </label>
+        <button id="sortDir" type="button" class="ghost" title="切换排序方向">降序 ↓</button>
+      </div>
+
+      <ul id="taskList" class="task-list"></ul>
+      <p id="emptyHint" class="empty" hidden>暂无任务，创建一个吧。多开几个标签页试试协作认领。</p>
+    </section>
+
+    <aside class="right">
+      <div class="card">
+        <h2>任务状态可视化</h2>
+        <canvas id="viz"></canvas>
+      </div>
+      <div class="card">
+        <h2>在线标签页</h2>
+        <ul id="tabList" class="tab-list"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toasts"></div>
+
+  <script src="js/db.js"></script>
+  <script src="js/sync.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
